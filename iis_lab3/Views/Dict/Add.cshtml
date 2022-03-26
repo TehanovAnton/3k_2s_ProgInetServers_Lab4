@@ -1,0 +1,28 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Add</title>
+</head>
+<body>
+    <div>
+        @using (Html.BeginForm("AddSave", "Dict", FormMethod.Post, new { data_formType = "user" }))
+        {
+            <label>LastName:</label>
+            @Html.TextBox("LastName")
+            <br />
+
+            <label>Number:</label>
+            @Html.TextBox("Number")
+            <br />
+
+            <input type="submit" value="Отправить" />
+        }
+    </div>
+</body>
+</html>

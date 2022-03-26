@@ -1,0 +1,31 @@
+﻿@using lab3_mvc.Models
+@{
+    Layout = null;
+    DictRecord record = ViewBag.record;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div>
+        <label>Delete</label>
+        @using (Html.BeginForm("DeleteSave", "Dict", FormMethod.Post, new { data_formType = "user" }))
+        {
+            <label>LastName:</label>
+            @Html.TextBox("LastName", record.LastName)
+            <br />
+
+            <label>Number:</label>
+            @Html.TextBox("Number", record.Number)
+            <br />
+
+            <input type="submit" value="Отправить" />
+        }
+    </div>
+</body>
+</html>

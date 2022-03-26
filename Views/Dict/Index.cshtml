@@ -1,0 +1,34 @@
+﻿@using lab3_mvc.Models
+@{
+    Layout = null;
+    List<DictRecord> dictRecords = ViewBag.dicts;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div>
+        <h1>Records</h1>
+        <ul>
+            @foreach (DictRecord record in dictRecords)
+            {
+                <li>
+                    @record.LastName: @record.Number
+
+                    @Html.ActionLink("Delete", "Delete", "Dict",
+                                     routeValues: new { id = record.Id }, htmlAttributes: null),
+                    @Html.ActionLink("Update", "Update", "Dict",
+                                     routeValues: new { id = record.Id }, htmlAttributes: null)
+                </li>
+            }
+        </ul>
+
+        @Html.ActionLink("Add", "Add", "Dict")
+    </div>
+</body>
+</html>
