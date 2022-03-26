@@ -1,4 +1,5 @@
-﻿@using lab3_mvc.Models
+﻿
+@using lab3_mvc.Models
 @{
     Layout = null;
     DictRecord record = ViewBag.record;
@@ -13,9 +14,13 @@
 </head>
 <body>
     <div>
-        <label>Delete</label>
-        @using (Html.BeginForm("DeleteSave", "Dict", FormMethod.Post, new { data_formType = "user" }))
+        <label>Update</label>
+        @using (Html.BeginForm("UpdateSave", "Dict", FormMethod.Post))
         {
+            <label>Id:</label>
+            @Html.TextBox("Id", record.Id)
+            <br />
+
             <label>LastName:</label>
             @Html.TextBox("LastName", record.LastName)
             <br />
@@ -26,6 +31,8 @@
 
             <input type="submit" value="Отправить" />
         }
+
+        @Html.ActionLink("Cancel", "Index", "Dict")
     </div>
 </body>
 </html>

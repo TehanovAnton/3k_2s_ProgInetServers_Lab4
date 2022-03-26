@@ -5,68 +5,65 @@ using System.IO;
 
 namespace lab3_mvc.Models
 {
-    public class DB
+    public static class DB
     {
-        string dbPath = @"C:\Users\Anton\source\3к-2с\программирование_интернет_серверов\лабораторные\lab3\lab3_mvc\db.json";
+        static ApplicationContext db;
+        static string dbPath = @"C:\Users\Anton\source\3к-2с\программирование_интернет_серверов\лабораторные\lab3\lab3_mvc\db.json";
 
-        public DB()
-        {
-            File.Open(dbPath, FileMode.OpenOrCreate, FileAccess.ReadWrite).Close();       
-        }
-
-        public List<DictRecord> GetAll()
+        public static List<DictRecord> GetAll()
         {
             List<DictRecord> records = new List<DictRecord>();
-            using (StreamReader reader = new StreamReader(File.OpenRead(dbPath)))
+            using (db = new ApplicationContext())
             {
-                string text = reader.ReadToEnd();
-                if (!String.IsNullOrEmpty(text))
-                    records = JsonConvert.DeserializeObject<List<DictRecord>>(text);
+                foreach(DictRecord record in db.DictRecords)
+                {
+                    records.Add(record);
+                }
             }
 
             return records;
         }
 
-        public void AddRecord(string lastName, string number)
+        public static void AddRecord(string lastName, string number)
         {
-            List<DictRecord> records = GetAll();
-            records.Add(new DictRecord(lastName, number));
-            Save(records);
-        }
-
-        public void Update(int id, string lastName, string number)
-        {
-            List<DictRecord> records = GetAll();
-            records[id] = new DictRecord(lastName, number);
-            records[id].Id = id;
-            Save(records);
-        }
-
-        public void Delete(int id)
-        {
-            List<DictRecord> records = GetAll();
-            records.RemoveAt(id - 1);
-            Save(records);
-        }
-
-        public int LastId()
-        {
-            List<DictRecord> records = GetAll();
-            return records.Count == 0 ? -1 : records[records.Count - 1].Id;
-        }
-
-        public DictRecord Find(int id)
-        {
-            List<DictRecord> dicts = GetAll();
-            return dicts.Find((record) => record.Id == id);
-        }
-
-        public void Save(List<DictRecord> records)
-        {
-            using (StreamWriter writer = new StreamWriter(dbPath, false))
+            using (db = new ApplicationContext())
             {
-                string text = JsonConvert.SerializeObject(records);
-                writer.Write(text);
+                DictRecord record = new DictRecord { LastName = lastName, Number = number };
+                db.DictRecords.Add(record);
+                db.SaveChanges();
+            }
+        }
+
+        public static DictRecord Find(int id)
+        {
+            DictRecord record;
+            using(db = new ApplicationContext())
+            {
+                record = GetAll().Find(el => el.Id == id);
+            }
+
+            return record;
+        }
+
+        public static void Update(int id, string lastName, string number)
+        {
+            DictRecord record = Find(id);
+            using (db = new ApplicationContext())
+            {
+                record.LastName = lastName;
+                record.Number = number;
+                db.DictRecords.Update(record);
+                db.SaveChanges();
+            }
+        }
+
+        public static void Delete(int id)
+        {
+            DictRecord record = Find(id);
+            using (db = new ApplicationContext())
+            {
+                db.DictRecords.Remove(record);
+                db.SaveChanges();
             }
         }
     }

@@ -19,11 +19,16 @@
             {
                 <li>
                     @record.LastName: @record.Number
-                    @Html.ActionLink("Delete", "Delete", "Dict", 
-                                     routeValues: new { lastName = record.LastName, number = record.Number }, htmlAttributes: null)
+
+                    @Html.ActionLink("Delete", "Delete", "Dict",
+                                     routeValues: new { id = record.Id }, htmlAttributes: null),
+                    @Html.ActionLink("Update", "Update", "Dict",
+                                     routeValues: new { id = record.Id }, htmlAttributes: null)
                 </li>
             }
         </ul>
+
+        @Html.ActionLink("Add", "Add", "Dict")
     </div>
 </body>
 </html>

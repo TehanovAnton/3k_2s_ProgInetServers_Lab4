@@ -13,8 +13,7 @@ namespace lab3_mvc.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            DB db = new DB();            
-            ViewBag.dicts = db.GetAll();
+            ViewBag.dicts = DB.GetAll();
             return View();
         }
 
@@ -28,8 +27,7 @@ namespace lab3_mvc.Controllers
         [HttpPost]
         public ActionResult AddSave(string lastName, string number)
         {
-            DB db = new DB();
-            db.AddRecord(lastName, number);
+            DB.AddRecord(lastName, number);
             return Redirect("/Dict/Index");
         }
 
@@ -38,14 +36,12 @@ namespace lab3_mvc.Controllers
         [HttpGet]
         public ActionResult Update(int id)
         {
-            DB db = new DB();
-            ViewBag.record = db.Find(id);
+            ViewBag.record = DB.Find(id);
             return View();
         }
         public ActionResult UpdateSave(int id, string lastName, string number)
         {
-            DB db = new DB();
-            db.Update(id, lastName, number);
+            DB.Update(id, lastName, number);
             return Redirect("/Dict/Index");
         }
 
@@ -54,14 +50,12 @@ namespace lab3_mvc.Controllers
         [HttpGet]
         public ActionResult Delete(int id)
         {
-            DB db = new DB();
-            ViewBag.record = db.Find(id);
+            ViewBag.record = DB.Find(id);
             return View();
         }
         public ActionResult DeleteSave(int id)
         {
-            DB db = new DB();
-            db.Delete(id);
+            DB.Delete(id);
             return Redirect("/Dict/Index");
         }
     }
